@@ -1,0 +1,192 @@
+/* ---------- Type ---------- */
+.label {
+  display: block;
+  margin: 28px 0 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.dim { color: var(--muted); }
+.prose { color: var(--ink-2); max-width: 62ch; }
+.accent {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--accent);
+}
+
+/* ---------- Reveal on scroll (content stays visible without JS) ---------- */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Masked word reveal: each word rises out of its own clip */
+.split { display: block; }
+.split .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.16em; margin-bottom: -0.16em; }
+.split .w__i { display: inline-block; }
+.js .split .w__i { transform: translateY(112%); }
+.js .split.is-visible .w__i {
+  transform: none;
+  transition: transform 1.05s var(--ease-out) calc(var(--base, 0ms) + var(--i) * 55ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; }
+  .js .split .w__i { transform: none; }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 13px 22px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--ink);
+  background: transparent;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.3s var(--ease), color 0.3s var(--ease), border-color 0.3s var(--ease), translate 0.5s var(--ease-out), scale 0.25s var(--ease);
+}
+.btn:hover { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+.btn:active { scale: 0.97; }
+.btn--primary { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.btn--primary:hover { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
+.arrow-icon { transition: transform 0.3s var(--ease); }
+a:hover > .arrow-icon, .btn:hover .arrow-icon { transform: translate(2px, -2px); }
+.icon { flex: none; }
+
+/* ---------- Chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  padding: 7px 15px;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--ink-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  transition: background-color 0.25s var(--ease), color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+@media (hover: hover) { .chip:hover { border-color: var(--accent); color: var(--accent); } }
+
+/* ---------- Editorial panel (replaces rounded cards) ---------- */
+.card { padding: clamp(4px, 1vw, 12px) 0 0; border-top: 1px solid var(--line-strong); }
+
+/* ---------- Custom cursor (fine pointers only) ---------- */
+.cursor { display: none; }
+.has-cursor .cursor {
+  display: block;
+  position: fixed;
+  left: 0; top: 0;
+  z-index: 300;
+  width: 0; height: 0;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.has-cursor .cursor.is-on { opacity: 1; }
+.cursor::before {
+  content: '';
+  position: absolute;
+  left: -14px; top: -14px;
+  width: 28px; height: 28px;
+  border: 1px solid rgba(216, 172, 82, 0.85);
+  border-radius: 50%;
+  transition: transform 0.45s var(--ease-out), background-color 0.3s, border-color 0.3s;
+}
+.cursor.is-active::before { transform: scale(1.7); background: rgba(216, 172, 82, 0.1); }
+.cursor.has-label::before { transform: scale(3.2); background: var(--accent); border-color: var(--accent); }
+.cursor__label {
+  position: absolute;
+  left: 0; top: 0;
+  translate: -50% -50%;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-accent);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+.cursor.has-label .cursor__label { opacity: 1; }
+
+/* ---------- Page entrance curtain ---------- */
+.intro { display: none; }
+.js .intro {
+  display: grid;
+  place-items: center;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--bg);
+  pointer-events: none;
+  animation: curtain 1.75s var(--ease-out) forwards;
+}
+.intro__mark { font: italic 400 clamp(3rem, 9vw, 5.5rem)/1 var(--font-serif); color: var(--accent); animation: mark 1.2s var(--ease-out) both; }
+.intro__line { position: absolute; left: 50%; bottom: 42%; width: 64px; height: 1px; translate: -50% 0; background: var(--accent); transform-origin: center; animation: line 1s var(--ease-out) 0.15s both; }
+@keyframes curtain {
+  0%, 52% { clip-path: inset(0 0 0 0); visibility: visible; }
+  100% { clip-path: inset(0 0 100% 0); visibility: hidden; }
+}
+@keyframes mark { 0% { opacity: 0; transform: translateY(14px); } 35%, 70% { opacity: 1; transform: none; } 100% { opacity: 0; transform: translateY(-8px); } }
+@keyframes line { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .js .intro { display: none; } :root { --enter: 0ms; } }
+
+/* ---------- Scroll progress line ---------- */
+.progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .progress {
+    display: block;
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    height: 2px;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    animation: progress linear both;
+    animation-timeline: scroll(root);
+  }
+  @keyframes progress { to { transform: scaleX(1); } }
+}
+@media (prefers-reduced-motion: reduce) { .progress { display: none !important; } }
+
+/* ---------- Disclosure (smooth expand/collapse) ---------- */
+.dc__btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 0;
+  text-align: left;
+  color: var(--ink);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.dc__label { display: flex; align-items: baseline; gap: 16px; font-size: clamp(1.1rem, 2vw, 1.35rem); font-weight: 500; letter-spacing: -0.02em; transition: color 0.3s; }
+.dc__hint { margin-left: auto; font-size: 0.8125rem; color: var(--muted); text-align: right; }
+.dc__icon { position: relative; flex: none; width: 18px; height: 18px; margin-left: auto; }
+.dc__hint + .dc__icon { margin-left: 0; }
+.dc__icon::before, .dc__icon::after { content: ''; position: absolute; left: 0; top: 50%; width: 100%; height: 1.5px; background: var(--accent); transition: transform 0.5s var(--ease-out); }
+.dc__icon::after { transform: rotate(90deg); }
+.dc[data-open='true'] .dc__icon::after { transform: rotate(0deg); }
+@media (hover: hover) { .dc__btn:hover .dc__label { color: var(--accent); } }
+.dc__panel { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: 0fr; transition: grid-template-rows 0.7s var(--ease-out); }
+.dc[data-open='true'] > .dc__panel { grid-template-rows: 1fr; }
+.dc__inner { min-height: 0; overflow: clip; overflow-clip-margin: 0px; }
+.dc:not([data-open='true']) > .dc__panel > .dc__inner { visibility: hidden; transition: visibility 0s 0.7s; }
+.dc__inner > * { opacity: 0; transition: opacity 0.5s var(--ease); }
+.dc[data-open='true'] > .dc__panel > .dc__inner > * { opacity: 1; transition-delay: 0.15s; }
+@media (prefers-reduced-motion: reduce) { .dc__panel { transition: none; } }

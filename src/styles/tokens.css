@@ -1,0 +1,36 @@
+:root {
+  color-scheme: dark;
+
+  /* Near-black canvas with a warm gold accent */
+  --bg: #0a0a0a;
+  --bg-2: #101010;
+  --surface: #151515;
+  --surface-2: #1d1d1d;
+  --ink: #f4f2ee;
+  --ink-2: #cdc8bf;
+  --muted: #9b968d;
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.2);
+  --accent: #d8ac52;
+  --accent-deep: #a67f2d;
+  --accent-soft: rgba(216, 172, 82, 0.11);
+  --on-accent: #0a0a0a;
+  --glow-red: rgba(122, 24, 34, 0.2);
+  --pa: #a9c2d8;
+
+  /* Type */
+  --font-body: 'DM Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: 'Fraunces Variable', 'Iowan Old Style', Georgia, serif;
+
+  /* Layout */
+  --container: 1180px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --nav-h: 68px;
+  --radius: 22px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Page-entrance timing: the hero starts once the curtain is lifting. */
+  --enter: 950ms;
+}
