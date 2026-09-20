@@ -26,3 +26,4 @@ dist-ssr
 # Lockfile (regenerated on install)
 package-lock.json
 .env
+.vercel
